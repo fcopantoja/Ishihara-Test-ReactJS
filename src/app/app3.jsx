@@ -13,6 +13,7 @@ var Colors = require('material-ui/lib/styles/colors');
 var TopBar = require('./components/topbar.jsx')
 var Question = require('./components/question.jsx')
 var LeftMenu = require('./components/leftMenu.jsx')
+var Results = require('./components/results.jsx')
 
 injectTapEventPlugin();
 
@@ -58,6 +59,7 @@ var Questions = React.createClass({
 var routes = (
   <Route name="app" handler={App} path="/">    
     <Route name="question" handler={Questions} path="question"></Route>
+    <Route name="results" handler={Results} path="results"></Route>
   </Route>
 );
 

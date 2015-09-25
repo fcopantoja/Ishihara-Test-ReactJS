@@ -31,9 +31,9 @@ let Question = React.createClass({
       currentCard: 1,
       cards:[
         // 1
-        {'right': 12, type: 'number'},
+        /*{'right': 12, type: 'number'},
         // 2
-        {'right': 8, type: 'nothing'},
+        {'right': 8, type: 'number'},
         // 3
         {'right': 29, type: 'number'},
         // 4
@@ -77,7 +77,10 @@ let Question = React.createClass({
         // 23
         {'right': true, type: 'line'},
         // 24
-        {'right': true, type: 'line'},
+        {'right': true, type: 'line'},*/
+        {'right': 12, type: 'number'},
+        {'right': 'no', type: 'nothing'},
+        {'right': 'yes', type: 'line'},
       ]
     };
   },
@@ -99,17 +102,47 @@ let Question = React.createClass({
   },
 
   handleNext() {
-    let state = this.state
-    state.currentCard = state.currentCard + 1
-    this.setState(state)
-    this.clearInput()
+
+    console.log(this.state.cards)
+
+    if(this.validateInput()) {
+      let state = this.state
+      state.currentCard = state.currentCard + 1
+      this.setState(state)
+      this.setCardAnswer()
+      
+    }
   },
 
    handlePrevious() {
     let state = this.state
     state.currentCard = state.currentCard - 1
     this.setState(state)
-    this.clearInput()
+    this.setCardAnswer()
+  },
+
+  setCardAnswer() {
+
+    let card = this.state.cards[this.state.currentCard - 1]
+
+    if(card.type == 'number') {
+      if( typeof (card.answer) !== 'undefined' )
+        this.refs.textField.setValue(card.answer)
+      else
+        this.refs.textField.setValue(null)
+
+      this.refs.textField.focus()
+    }
+
+    if(card.type == 'nothing') {
+      if( typeof (card.answer) !== 'undefined' )
+        this.refs.radioField.setValue(card.answer)
+      else
+        this.refs.radioField.setValue(null)
+
+      this.refs.radioField.focus()
+    }
+
   },
 
   handleChange(evt) {    
@@ -118,9 +151,35 @@ let Question = React.createClass({
     this.setState(state)
   },
 
-  clearInput() {
-    if(this.refs.textField)
-      this.refs.textField.setValue(null)
+  validateInput() {
+    let textInput = this.refs.textField
+    let radioInput = this.refs.radioField
+
+    if(textInput) {
+      let value = textInput.getValue()
+
+      if (value === '') {
+        textInput.setErrorText('Enter a number')
+        return false
+      }
+
+      if (isNaN(value) || value === '') {
+        textInput.setErrorText('This field must be numeric')
+        return false
+      }
+
+      return true
+    }
+
+    if(radioInput) {
+      let value = radioInput.getSelectedValue()
+      
+      if (value === '')
+        return false
+
+      return true
+    }
+
   },
 
   render() {
@@ -183,20 +242,33 @@ let Question = React.createClass({
       </Card>
       <Card style={buttonsCard}>
         <CardText>
-          <div style={buttonContainer}>
-             
-
+          <div style={buttonContainer}>             
             <div style={formStyle}>
               <div style={formStyle2}>
-              {this.state.cards[this.state.currentCard].type == 'number' &&
-              <TextField hintText="What number do you see?" onChange={this.handleChange} ref="textField"/>}
+              {this.state.cards[this.state.currentCard - 1].type == 'number' &&
+              <TextField hintText="What number do you see?" 
+              onChange={this.handleChange} ref="textField" onEnterKeyDown={this.handleNext}/>}
 
-              {this.state.cards[this.state.currentCard].type == 'nothing' &&
-              <RadioButtonGroup name="yesno" defaultSelected="not_light" style={radioStyle}>
-                <RadioButton value="yes" label="Yes" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
-                <RadioButton value="no" label="No" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
-              </RadioButtonGroup>
+              {this.state.cards[this.state.currentCard - 1].type == 'nothing' &&
+              <div>
+                <h2>Can you see any number?</h2>
+                <RadioButtonGroup name="yesno" style={radioStyle}  ref="radioField" onChange={this.handleChange}>
+                  <RadioButton value="yes" label="Yes" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
+                  <RadioButton value="no" label="No" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
+                </RadioButtonGroup>
+              </div>
               }
+
+              {this.state.cards[this.state.currentCard - 1].type == 'line' &&
+              <div>
+                <h2>Can you see a line?</h2>
+                <RadioButtonGroup name="yesno" style={radioStyle}  ref="radioField" onChange={this.handleChange}>
+                  <RadioButton value="yes" label="Yes" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
+                  <RadioButton value="no" label="No" labelStyle={{color:'rgba(0, 0, 0, 0.54)', fontSize:'18px'}}/>
+                </RadioButtonGroup>
+              </div>
+              }
+
               </div>
 
             </div>
