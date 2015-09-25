@@ -7,3 +7,11 @@ body {
   line-height: 20px;
   margin:0;
 }
+
+/*.mui-table-header-column:first-child {
+	display: none;
+}
+
+.mui-table-row-column:first-child {
+	display: none;
+}*/
