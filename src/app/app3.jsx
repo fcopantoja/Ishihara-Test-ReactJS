@@ -11,13 +11,19 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
 var TopBar = require('./components/topbar.jsx')
-var Question = require('./components/question.jsx')
+var Questions = require('./components/question.jsx')
 var LeftMenu = require('./components/leftMenu.jsx')
 var Results = require('./components/results.jsx')
+
+var Reflux = require('reflux')
+var CardStore = require('./stores/CardStore.jsx');
+var CardActions = require('./actions/CardActions.jsx');
 
 injectTapEventPlugin();
 
 var App = React.createClass({
+  mixins: [Reflux.connect(CardStore, 'cardStore')],
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -46,11 +52,13 @@ var App = React.createClass({
   }
 });
 
-var Questions = React.createClass({
+var QuestionsComponent = React.createClass({
   render: function() {
+    console.log(this.state)
+
     return (
       <div>
-        <Question/>
+        <Questions cards={this.state}/>
       </div>
     );
   }
@@ -58,7 +66,7 @@ var Questions = React.createClass({
 
 var routes = (
   <Route name="app" handler={App} path="/">    
-    <Route name="question" handler={Questions} path="question"></Route>
+    <Route name="question" handler={QuestionsComponent} path="question"></Route>
     <Route name="results" handler={Results} path="results"></Route>
   </Route>
 );

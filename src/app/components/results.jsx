@@ -3,17 +3,17 @@ let mui = require('material-ui');
 let ThemeManager = new mui.Styles.ThemeManager();
 let Colors = mui.Styles.Colors;
 
-
 let Paper = mui.Paper
-let Table = mui.Table
-let TableHeader = mui.TableHeader
-let TableRow = mui.TableRow
-let TableHeaderColumn = mui.TableHeaderColumn
-let TableBody = mui.TableBody
-let TableRowColumn = mui.TableRowColumn
-let TableFooter = mui.TableFooter
 let Avatar = mui.Avatar
 let FontIcon = mui.FontIcon
+let List = mui.List
+let ListItem = mui.ListItem
+let rightIconMenu = mui.rightIconMenu
+let ListDivider = mui.ListDivider
+
+let Reflux = require('reflux')
+let CardStore = require('../stores/CardStore.jsx');
+let CardActions = require('../actions/CardActions.jsx');
 
 let Results = React.createClass({
   contextTypes: {
@@ -32,25 +32,6 @@ let Results = React.createClass({
       deselectOnClickaway: false,
       height: '400px',
     };
-  },
-
-  getDefaultProps() {
-    return {
-      cards:[
-        {'right': 12, type: 'number', 'answer': 12},
-        {'right': 3, type: 'line', 'answer': 4},
-        {'right': 4, type: 'line', 'answer': 5},
-        {'right': 12, type: 'number', 'answer': 12},
-        {'right': 3, type: 'line', 'answer': 4},
-        {'right': 4, type: 'line', 'answer': 5},
-        {'right': 12, type: 'number', 'answer': 12},
-        {'right': 3, type: 'line', 'answer': 4},
-        {'right': 4, type: 'line', 'answer': 5},
-        {'right': 12, type: 'number', 'answer': 12},
-        {'right': 3, type: 'line', 'answer': 4},
-        {'right': 4, type: 'line', 'answer': 5},
-      ]
-    }
   },
 
   childContextTypes: {
@@ -72,56 +53,46 @@ let Results = React.createClass({
   render() {
 
     let cardStyle = {
-      width: '80%',
+      width: '90%',
       margin: '0 auto',
       marginTop: '40px',
       
     }
 
-    /*{card.answer === card.right &&
-            <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor={Colors.blue400}/>}
-          </TableRowColumn>*/
+    let listItems = CardStore.cards.map(function(card, index) {
+      
+      let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor={Colors.blue400}/>
 
-    let rows = this.props.cards.map(function(card, index) {
+      if (card.answer != card.right) 
+        avatar = <Avatar icon={<FontIcon className="fa fa-times" />}/>
+
       return (
-        <TableRow key={index}>
-          <TableRowColumn>{index + 1}</TableRowColumn>
-          <TableRowColumn>{card.right}</TableRowColumn>
-          <TableRowColumn>{card.answer}</TableRowColumn>
-          <TableRowColumn>{card.type}</TableRowColumn>
-          <TableRowColumn>2323</TableRowColumn>
-        </TableRow>
+        <div>
+        <div>{CardStore.cardlist}</div>
+          <ListItem
+            leftAvatar={avatar}
+            rightIconButton={rightIconMenu}
+            primaryText={`Card ${index + 1}`}
+            secondaryText={
+              <p>
+                <span style={{color: Colors.darkBlack}}>
+                  Right Answer: {card.right}, Your Answer: {card.answer}
+                </span>
+                <br/>
+                Type: {card.type}
+              </p>
+            }
+            secondaryTextLines={2} />
+          <ListDivider inset={true} />
+        </div>
       )
     })
 
     return (
       <Paper style={cardStyle} zDepth={2}>
-      <Table
-        height={this.state.height}
-        fixedHeader={this.state.fixedHeader}
-        fixedFooter={this.state.fixedFooter}
-        selectable={this.state.selectable}>
-        <TableHeader enableSelectAll={this.state.enableSelectAll}>
-          <TableRow>
-            <TableHeaderColumn colSpan="3" tooltip='Super Header' style={{textAlign: 'center'}} style={{backgroundColor:'#00bcd4', width:'100%', color:'white'}}>
-              <h2>Your Results</h2>
-            </TableHeaderColumn>
-          </TableRow>
-          <TableRow>
-            <TableHeaderColumn tooltip='The Number'>Number</TableHeaderColumn>
-            <TableHeaderColumn tooltip='The Answer'>Answer</TableHeaderColumn>
-            <TableHeaderColumn tooltip='The RIght Answer'>Right</TableHeaderColumn>
-            <TableHeaderColumn tooltip='The Type'>Type</TableHeaderColumn>
-            <TableHeaderColumn tooltip='Correct/Wrong'>Correct/Wrong</TableHeaderColumn>
-          </TableRow>
-        </TableHeader>
-        <TableBody
-          deselectOnClickaway={this.state.deselectOnClickaway}
-          showRowHover={this.state.showRowHover}
-          stripedRows={this.state.stripedRows}>
-          {rows}
-        </TableBody>
-      </Table>
+        <List subheader="Your Results">
+          {listItems}
+        </List>
       </Paper>
     
     );

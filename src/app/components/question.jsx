@@ -21,6 +21,9 @@ let TextField = mui.TextField
 let RadioButton = mui.RadioButton
 let RadioButtonGroup = mui.RadioButtonGroup
 
+let CardStore = require('../stores/CardStore.jsx');
+let CardActions = require('../actions/CardActions.jsx');
+
 let Question = React.createClass({
   contextTypes: {
     router: React.PropTypes.func.isRequired,
@@ -28,60 +31,8 @@ let Question = React.createClass({
 
   getInitialState: function() {
     return {
-      currentCard: 1,
-      cards:[
-        // 1
-        /*{'right': 12, type: 'number'},
-        // 2
-        {'right': 8, type: 'number'},
-        // 3
-        {'right': 29, type: 'number'},
-        // 4
-        {'right': 5, type: 'number'},
-        // 5
-        {'right': 3, type: 'number'},
-        // 6
-        {'right': 15, type: 'number'},
-        // 7
-        {'right': 74, type: 'number'},
-        // 8
-        {'right': 6, type: 'number'},
-        // 9
-        {'right': 45, type: 'number'},
-        // 10
-        {'right': 5, type: 'number'},
-        // 11
-        {'right': 7, type: 'number'},
-        // 12
-        {'right': 16, type: 'number'},
-        // 13
-        {'right': 73, type: 'number'},
-        // 14
-        {'right': false, type: 'nothing'},
-        // 15
-        {'right': false, type: 'nothing'},
-        // 16
-        {'right':26, type: 'number'},
-        // 17
-        {'right':42, type: 'number'},
-        // 18
-        {'right': true, type: 'line'},
-        // 19
-        {'right': false, type: 'line'},
-        // 20
-        {'right': true, type: 'line'},
-        // 21
-        {'right': true, type: 'line'},
-        // 22
-        {'right': true, type: 'line'},
-        // 23
-        {'right': true, type: 'line'},
-        // 24
-        {'right': true, type: 'line'},*/
-        {'right': 12, type: 'number'},
-        {'right': 'no', type: 'nothing'},
-        {'right': 'yes', type: 'line'},
-      ]
+      currentCard: 0,
+      cards: CardStore.cards
     };
   },
 
@@ -102,28 +53,34 @@ let Question = React.createClass({
   },
 
   handleNext() {
-
-    console.log(this.state.cards)
+    let state = this.state
 
     if(this.validateInput()) {
-      let state = this.state
-      state.currentCard = state.currentCard + 1
-      this.setState(state)
-      this.setCardAnswer()
+      console.log('validate input')
       
-    }
+      if(state.currentCard == (state.cards.length - 1)) {
+        this.context.router.transitionTo('/results')
+      }
+
+      else {
+        console.log('here i am')   
+        CardActions.setAnswer(state.currentCard,  this.refs.textField.getValue())
+        state.currentCard = state.currentCard + 1
+        this.setState(state)
+      }
+    }     
   },
 
    handlePrevious() {
     let state = this.state
-    state.currentCard = state.currentCard - 1
+    state.currentCard = state.currentCard
     this.setState(state)
-    this.setCardAnswer()
+    //this.setCardAnswer()
   },
 
   setCardAnswer() {
 
-    let card = this.state.cards[this.state.currentCard - 1]
+    let card = this.state.cards[this.state.currentCard ]
 
     if(card.type == 'number') {
       if( typeof (card.answer) !== 'undefined' )
@@ -147,7 +104,7 @@ let Question = React.createClass({
 
   handleChange(evt) {    
     let state = this.state
-    state.cards[state.currentCard - 1].answer = evt.target.value
+    state.cards[state.currentCard].answer = evt.target.value
     this.setState(state)
   },
 
@@ -233,11 +190,11 @@ let Question = React.createClass({
       <div>
       <Card style={cardStyle}>
         <CardHeader
-          title={`Card ${this.state.currentCard}`}
+          title={`Card ${this.state.currentCard + 1}`}
           subtitle="Ishihara Color Vision Test"
           avatar={<Avatar icon={<FontIcon className="fa fa-eye" />}/>}/>
         <div style={centeredStyle}>
-          <img src={`/img/card${this.state.currentCard}.png`} />
+          <img src={`/img/card${this.state.currentCard + 1}.png`} />
         </div>
       </Card>
       <Card style={buttonsCard}>
@@ -245,11 +202,11 @@ let Question = React.createClass({
           <div style={buttonContainer}>             
             <div style={formStyle}>
               <div style={formStyle2}>
-              {this.state.cards[this.state.currentCard - 1].type == 'number' &&
+              {this.state.cards[this.state.currentCard].type == 'number' &&
               <TextField hintText="What number do you see?" 
               onChange={this.handleChange} ref="textField" onEnterKeyDown={this.handleNext}/>}
 
-              {this.state.cards[this.state.currentCard - 1].type == 'nothing' &&
+              {this.state.cards[this.state.currentCard].type == 'nothing' &&
               <div>
                 <h2>Can you see any number?</h2>
                 <RadioButtonGroup name="yesno" style={radioStyle}  ref="radioField" onChange={this.handleChange}>
@@ -259,7 +216,7 @@ let Question = React.createClass({
               </div>
               }
 
-              {this.state.cards[this.state.currentCard - 1].type == 'line' &&
+              {this.state.cards[this.state.currentCard].type == 'line' &&
               <div>
                 <h2>Can you see a line?</h2>
                 <RadioButtonGroup name="yesno" style={radioStyle}  ref="radioField" onChange={this.handleChange}>
