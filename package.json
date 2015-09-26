@@ -7,7 +7,8 @@
     "url": "https://github.com/callemall/material-ui.git"
   },
   "scripts": {
-    "start": "gulp"
+    "start": "gulp",
+    "build-dev": "browserify -e app/bootstrap.js -t reactify -o build/app.js -d"
   },
   "devDependencies": {
     "babelify": "^6.1.2",
@@ -17,12 +18,14 @@
     "gulp-notify": "^2.1.0",
     "gulp-util": "^3.0.1",
     "pretty-hrtime": "^0.2.2",
+    "react-router": "~0.13.0",
+    "reactify": "^1.1.1",
+    "reflux": "~0.2.7",
     "require-dir": "^0.1.0",
+    "uglifyify": "^3.0.1",
     "underscore": "^1.7.0",
     "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.2.1",
-    "react-router": "~0.13.0",
-    "reflux": "~0.2.7"
+    "watchify": "^2.2.1"
   },
   "dependencies": {
     "material-ui": ">=0.8",
