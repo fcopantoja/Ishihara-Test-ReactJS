@@ -59,9 +59,9 @@ let Results = React.createClass({
       
     }
 
-    let listItems = CardStore.cards.map(function(card, index) {
+    let listItems = CardStore.state.cards.map(function(card, index) {
       
-      let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor={Colors.blue400}/>
+      let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor='#00bcd4'/>
 
       if (card.answer != card.right) 
         avatar = <Avatar icon={<FontIcon className="fa fa-times" />}/>

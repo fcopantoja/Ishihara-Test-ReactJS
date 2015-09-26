@@ -52,7 +52,7 @@ let TopBar = React.createClass({
     return (
     <div>
       <AppBar
-        title="Ishihara Color Vision Test"
+        title="Color Vision Test"
         iconClassNameRight="muidocs-icon-navigation-expand-more"
         onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}/>
         <LeftNav ref="leftNav" docked={false} menuItems={menuItems} onChange={this._onLeftNavChange} />

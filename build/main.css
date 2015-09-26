@@ -13,3 +13,46 @@ body {
     margin: 0 auto;
     margin-top: 40px;
 }
+
+.plate-button {
+    margin-right: 10px;
+}
+
+.button-card {
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+.plate {
+    width: 95%;
+    margin: 10px auto;
+}
+
+.centered {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.test-header {
+    float: left;
+}
+
+.test-buttons-container {
+    float: right;
+    margin: 8px 15px 0 0;
+}
+
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+h1{
+    font-size: 16px;
+}

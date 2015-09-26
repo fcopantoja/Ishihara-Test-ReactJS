@@ -3,23 +3,43 @@ var CardActions = require('../actions/CardActions.jsx')
 
 var CardStore = Reflux.createStore({
   listenables: [CardActions],
-  cards: [],
+  state: {
+    cards: [],
+    currentCard: 0,
+    questionState: false,
+    questionAnswered: false,
+    enableNextButton: true
+  },
   
   init: function() {
     this.fetchCards();
   },
+
+  setQuestionState(state) {
+    if(state)
+        this.state.enableNextButton = false
+
+    this.state.questionState = state
+    this.trigger(this.state)
+  },
+
+  setCurrentCard(currentCard) {
+    this.state.currentCard = currentCard
+    this.state.questionAnswered = false
+    this.trigger(this.state)
+  },
   
   fetchCards: function() {
     console.log('Fetching cards')
-    this.cards = [
+    this.state.cards = [
         // 1
-        {'right': 12, type: 'number'},
+        {'right': 12, type: 'number', options: [12, 8, 4]},
         // 2
-        {'right': 8, type: 'number'},
+        {'right': 8, type: 'number', options: [8, 3, 13]},
         // 3
-        {'right': 29, type: 'number'},
+        {'right': 29, type: 'number', options: [12, 8, 4]},
         // 4
-        {'right': 5, type: 'number'},
+        /*{'right': 5, type: 'number'},
         // 5
         {'right': 3, type: 'number'},
         // 6
@@ -45,14 +65,16 @@ var CardStore = Reflux.createStore({
         // 16
         {'right':26, type: 'number'},
         // 17
-        {'right':42, type: 'number'},
+        {'right':42, type: 'number'},*/
     ]
     this.trigger(this.cards);
   },
 
-  setAnswer(index, answer) {
-    this.cards[index].answer = answer
-    this.trigger(this.cards)
+  setAnswer(answer) {
+    this.state.cards[this.state.currentCard].answer = answer
+    this.state.questionAnswered = true
+    this.state.enableNextButton = true
+    this.trigger(this.state)
   }
 
 });
