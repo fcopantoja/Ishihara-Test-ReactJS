@@ -1,17 +1,15 @@
 html {
-  font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
-  font-size: 13px;
-  line-height: 20px;
-  margin:0;
+    font-size: 13px;
+    line-height: 20px;
+    margin:0;
 }
 
-/*.mui-table-header-column:first-child {
-	display: none;
+.main-card {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 40px;
 }
-
-.mui-table-row-column:first-child {
-	display: none;
-}*/

@@ -11,9 +11,9 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
 var TopBar = require('./components/topbar.jsx')
-var Questions = require('./components/question.jsx')
-var LeftMenu = require('./components/leftMenu.jsx')
+var Test = require('./components/test.jsx')
 var Results = require('./components/results.jsx')
+var AboutPage = require('./components/about.jsx')
 
 var Reflux = require('reflux')
 var CardStore = require('./stores/CardStore.jsx');
@@ -52,22 +52,12 @@ var App = React.createClass({
   }
 });
 
-var QuestionsComponent = React.createClass({
-  render: function() {
-    console.log(this.state)
-
-    return (
-      <div>
-        <Questions cards={this.state}/>
-      </div>
-    );
-  }
-})
-
 var routes = (
   <Route name="app" handler={App} path="/">    
-    <Route name="question" handler={QuestionsComponent} path="question"></Route>
+    <Route name="test" handler={Test} path="test"></Route>
     <Route name="results" handler={Results} path="results"></Route>
+    <Route name="about" handler={AboutPage} path="about"></Route>
+    <DefaultRoute handler={Test} />
   </Route>
 );
 
