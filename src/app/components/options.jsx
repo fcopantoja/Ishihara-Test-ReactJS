@@ -51,7 +51,7 @@ let OptionsPage = React.createClass({
     let question = 'What did you see?'
 
     if (this.props.cardData.type === 'line')
-      question = 'How many lines did you see?'
+      question = 'Can you see any line? How many?'
 
     return (
       <CardText>
