@@ -6,6 +6,8 @@ var CardActions = Reflux.createActions([
   'setQuestionState',
   'setCurrentCard',
   'setEnableNextButton',
+  'setLoadingCard',
+  'getCorrectAnswers',
 ]);
 
 module.exports = CardActions;

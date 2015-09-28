@@ -22,6 +22,7 @@ let TextField = mui.TextField
 let RadioButton = mui.RadioButton
 let RadioButtonGroup = mui.RadioButtonGroup
 let LinearProgress = mui.LinearProgress
+let RefreshIndicator = mui.RefreshIndicator
 
 let Reflux = require('reflux')
 let CardStore = require('../stores/CardStore.jsx');
@@ -92,6 +93,13 @@ let Question = React.createClass({
     }
   },
 
+  handleOnLoad() {
+    this.state.loadingCard = false
+    this.setState(this.state)
+    console.log('handleOnLoad')
+    console.log(this.state.loadingCard)
+  },
+
   render() {
 
     let buttonStyle = {
@@ -136,8 +144,12 @@ let Question = React.createClass({
         <div><LinearProgress mode="determinate" value={this.state.currentCard} max={this.state.cards.length}/></div>
 
         <div className="centered">
+
+          {false && <RefreshIndicator size={80} left={0} top={5} status="loading"
+          style={{position:'relative', margin:'0 auto'}} />}
+
           { !this.state.questionState &&
-          <img key={this.state.currentCard} src={`/img/${this.state.currentCard + 1}-38.png`} style={{minWidth:'300px'}}/>}
+          <img onLoad={this.handleOnLoad}  key={this.state.currentCard} src={`/img/${this.state.currentCard + 1}-38.png`} style={{minWidth:'300px'}}/>}
           { this.state.questionState &&
           <Options cardData={this.state.cards[this.state.currentCard]}/>}
         </div>

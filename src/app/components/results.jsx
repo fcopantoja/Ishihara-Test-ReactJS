@@ -56,15 +56,19 @@ let Results = React.createClass({
       width: '90%',
       margin: '0 auto',
       marginTop: '40px',
+      marginBottom: '40px'
       
     }
 
+    let rightAnswers = 0
     let listItems = CardStore.state.cards.map(function(card, index) {
       
       let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor='#00bcd4'/>
 
       if (card.answer != card.right) 
         avatar = <Avatar icon={<FontIcon className="fa fa-times" />}/>
+      else
+        rightAnswers += 1
 
       return (
         <div>
@@ -88,11 +92,23 @@ let Results = React.createClass({
       )
     })
 
+    let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor='#00bcd4'/>
+
     return (
       <div>
       <Paper style={cardStyle} zDepth={2}>
-        <List subheader="Your Results">
-          {listItems}
+        <List subheader="">
+          <ListItem leftAvatar={avatar} rightIconButton={rightIconMenu}
+            primaryText={`${rightAnswers} of ${CardStore.state.cards.length} Right Answers`}
+            secondaryText={
+              <p>
+                <span style={{color: Colors.darkBlack}}>
+                  You have a good vision
+                </span>
+                <br/>
+              </p>
+            }
+            secondaryTextLines={2} />
         </List>
       </Paper>
 

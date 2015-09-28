@@ -8,7 +8,8 @@ var CardStore = Reflux.createStore({
     currentCard: 0,
     questionState: false,
     questionAnswered: false,
-    enableNextButton: true
+    enableNextButton: true,
+    loadingCard: false
   },
   
   init: function() {
@@ -30,12 +31,16 @@ var CardStore = Reflux.createStore({
     this.state.questionAnswered = false
     this.trigger(this.state)
   },
+
+  setLoadingCard(state) {
+    this.state.loadingCard = state
+    this.trigger(this.state)
+  },
   
   fetchCards: function() {
     this.state.cards = [
         {plate: 1, 'right': 12, type: 'number', options: [12, 8, 4]},
-        {plate: 18, 'right': 'Anything', type: 'number', options: ['Anything', 8, 4]},
-        /*{plate: 2, 'right': 8, type: 'number', options: [8, 3, 13]},
+        {plate: 2, 'right': 8, type: 'number', options: [8, 3, 13]},
         {plate: 3, 'right': 6, type: 'number', options: [6, 8, 4]},
         {plate: 4, 'right': 29, type: 'number', options: [29, 8, 4]},
         {plate: 5, 'right': 57, type: 'number', options: [57, 8, 4]},
@@ -71,7 +76,7 @@ var CardStore = Reflux.createStore({
         {plate: 35, 'right': 1, type: 'line', options: [0, 1, 2]},
         {plate: 36, 'right': 1, type: 'line', options: [0, 1, 2]},
         {plate: 37, 'right': 1, type: 'line', options: [0, 1, 2]},
-        {plate: 38, 'right': 1, type: 'line', options: [0, 1, 2]},*/
+        {plate: 38, 'right': 1, type: 'line', options: [0, 1, 2]},
     ]
     this.trigger(this.cards);
   },
@@ -82,6 +87,7 @@ var CardStore = Reflux.createStore({
     this.state.enableNextButton = true
     this.trigger(this.state)
   }
+
 
 });
 
