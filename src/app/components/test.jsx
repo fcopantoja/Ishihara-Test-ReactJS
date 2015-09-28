@@ -63,10 +63,7 @@ let Question = React.createClass({
   },
 
   handleNext() {
-    let state = this.state
-
     if(this.state.questionState) {
-
       if(this.state.cards.length == this.state.currentCard + 1)
         this.context.router.transitionTo('results')
       else {
@@ -75,14 +72,24 @@ let Question = React.createClass({
       }
     } else {
       CardStore.setQuestionState(true)
+      if (typeof(this.state.cards[this.state.currentCard].answer) !== 'undefined') {
+        CardStore.setEnableNextButton(true)
+      } else
+        CardStore.setEnableNextButton(false)
+
       CardStore.setCurrentCard(this.state.currentCard)
     }
   },
 
    handlePrevious() {
-    let state = this.state
-    state.currentCard = state.currentCard
-    this.setState(state)
+    if(this.state.questionState) {
+        CardStore.setQuestionState(false)
+        CardStore.setEnableNextButton(true)
+    } else {
+      CardStore.setQuestionState(true)
+      CardStore.setCurrentCard(this.state.currentCard - 1)
+      CardStore.setEnableNextButton(true)
+    }
   },
 
   render() {
@@ -105,26 +112,34 @@ let Question = React.createClass({
       margin:'0 auto'
     }
 
+    let backButton = null
+
+    if(!(this.state.currentCard == 0 && this.state.questionState == false))
+      backButton = <FloatingActionButton style={{marginRight:'10px'}}
+                   iconClassName="fa fa-chevron-left" secondary={true} onClick={this.handlePrevious}/>
+
     return (
       <Card className="plate">
         <CardHeader className="test-header"
           title={`Plate ${this.state.currentCard + 1}`}
           subtitle="Ishihara"
           avatar={<Avatar icon={<FontIcon className="fa fa-eye" />}/>}/>
-          <div className="test-buttons-container">
-          <FloatingActionButton style={{marginRight:'10px'}}
-            iconClassName="fa fa-chevron-left" secondary={true} onClick={this.handleNext}/>
-          {this.state.currentCard < 24 && <FloatingActionButton
-            iconClassName="fa fa-chevron-right" secondary={true} onClick={this.handleNext}
-            disabled={!this.state.enableNextButton}/>}
-          </div>
+
+        <div className="test-buttons-container">
+
+          {backButton}
+          {this.state.currentCard < 38 && <FloatingActionButton
+          iconClassName="fa fa-chevron-right" secondary={true} onClick={this.handleNext}
+          disabled={!this.state.enableNextButton}/>}
+        </div>
+
         <div><LinearProgress mode="determinate" value={this.state.currentCard} max={this.state.cards.length}/></div>
 
         <div className="centered">
           { !this.state.questionState &&
-          <img key={this.state.currentCard} src={`/img/card${this.state.currentCard + 1}.png`} />}
+          <img key={this.state.currentCard} src={`/img/${this.state.currentCard + 1}-38.png`} style={{minWidth:'300px'}}/>}
           { this.state.questionState &&
-          <Options options={this.state.cards[this.state.currentCard].options}/>}
+          <Options cardData={this.state.cards[this.state.currentCard]}/>}
         </div>
       </Card>
     );

@@ -89,11 +89,19 @@ let Results = React.createClass({
     })
 
     return (
+      <div>
       <Paper style={cardStyle} zDepth={2}>
         <List subheader="Your Results">
           {listItems}
         </List>
       </Paper>
+
+      <Paper style={cardStyle} zDepth={2}>
+        <List subheader="Your Results">
+          {listItems}
+        </List>
+      </Paper>
+      </div>
     
     );
   }
