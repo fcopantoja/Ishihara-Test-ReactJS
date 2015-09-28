@@ -44,15 +44,6 @@ body {
 }
 
 
-.example-enter {
-  opacity: 0.01;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
-}
-
-h1{
+h1 {
     font-size: 16px;
 }
