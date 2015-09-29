@@ -92,7 +92,37 @@ let Results = React.createClass({
       )
     })
 
-    let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor='#00bcd4'/>
+    let score = rightAnswers * 100 / CardStore.state.cards.length
+    console.log(score)
+
+    let blindnessColor = {
+      'none': Colors.green200,
+      'weak': Colors.yellow600,
+      'moderate': Colors.red400,
+      'strong': Colors.red800
+    }
+
+    let msg, scoreColor
+
+    if (score < 30) {
+      msg = 'You have a strong color blindness'
+      scoreColor = blindnessColor.strong
+    
+    } else if (score >= 30 && score < 50) {
+      msg = 'You have a moderate color blindness'
+      scoreColor = blindnessColor.moderate
+    
+    }  else if (score >= 50 && score < 80) {
+      msg = 'You have a weak color blindness'
+      scoreColor = blindnessColor.weak
+    
+    } else {
+      msg = 'You dont have color blindness'
+      scoreColor = blindnessColor.none
+    }
+
+    //let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor='#00bcd4'/>
+    let avatar = <Avatar icon={<FontIcon className="fa fa-check" />} backgroundColor={scoreColor}/>
 
     return (
       <div>
@@ -103,7 +133,7 @@ let Results = React.createClass({
             secondaryText={
               <p>
                 <span style={{color: Colors.darkBlack}}>
-                  You have a good vision
+                  {msg}
                 </span>
                 <br/>
               </p>

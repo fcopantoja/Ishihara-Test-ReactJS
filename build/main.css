@@ -47,3 +47,11 @@ body {
 h1 {
     font-size: 16px;
 }
+
+.instructions {
+    text-align: justify;
+}
+
+.centered {
+    text-align: center;
+}

@@ -40,6 +40,7 @@ let TopBar = React.createClass({
     let menuItems = [
             { type: MenuItem.Types.SUBHEADER, text: 'Ishihara Test' },
             { route: 'test', text: 'Begin Test' },
+            { route: 'instructions', text: 'Instructions' },
             { type: MenuItem.Types.SUBHEADER, text: 'About this app' },
             { route: 'about', text: 'About Ishihara Test' },
             {

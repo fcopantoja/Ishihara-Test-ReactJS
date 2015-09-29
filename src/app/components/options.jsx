@@ -45,13 +45,13 @@ let OptionsPage = React.createClass({
 
     let labelStyle = {
         fontSize:'32px',
-        color: '#ccc'
+        color: '#888'
     }
 
     let question = 'What did you see?'
 
     if (this.props.cardData.type === 'line')
-      question = 'Can you see any line? How many?'
+      question = 'Could you see any line? How many?'
 
     return (
       <CardText>

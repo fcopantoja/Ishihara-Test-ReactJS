@@ -49,8 +49,8 @@ let Question = React.createClass({
   },
 
   onStatusChange: function(status) {
-    console.log(status)
     this.setState(status)
+    this.forceUpdate()
   },
 
   componentDidMount: function() {
@@ -94,10 +94,6 @@ let Question = React.createClass({
   },
 
   handleOnLoad() {
-    this.state.loadingCard = false
-    this.setState(this.state)
-    console.log('handleOnLoad')
-    console.log(this.state.loadingCard)
   },
 
   render() {

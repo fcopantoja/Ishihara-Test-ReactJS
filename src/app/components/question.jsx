@@ -47,6 +47,7 @@ let Question = React.createClass({
   },
 
   componentWillMount() {
+    CardStore.fetchCards()
     ThemeManager.setPalette({
       accent1Color: Colors.deepOrange500
     });
